@@ -1,41 +1,31 @@
 import xmlrpc.client
-def startClient():
-    proxy = xmlrpc.client.ServerProxy("http://127.0.0.1:8000/")
-    print("Connected to the RPC server\n")
-    while True:
-        try:
-            a = int(input("Enter first number: "))
-            b = int(input("Enter second number: "))
-        except ValueError:
-            print("Invalid input. Please enter numeric values.")
-            continue
 
-        # Show operation menu
-        print("\nSelect operation:")
-        print("\n1. Addition \n2. Subtraction \n3. Multiplication \n4. Division \n5. Exit\n")
-        
+proxy = xmlrpc.client.ServerProxy("http://127.0.0.1:6001/")
 
-        choice =int (input("Enter choice (1-5): ")
-)
-        if choice == 1:
-            result = proxy.add(a, b)
-        elif choice == 2:
-            result = proxy.subtract(a, b)
-        elif choice == 3:
-            result = proxy.multiply(a, b)
-        elif choice == 4:
-            if b == 0:
-                print("Cannot divide by zero")
-            result = proxy.divide(a, b)
-        elif choice == 5:
-            print("Exiting client.")
-            break
-        else:
-            print("Invalid choice. Please select 1-5.")
-            continue
+print("=== Temperature Conversion Program (RPC) ===")
+print("1. Celsius to Fahrenheit")
+print("2. Fahrenheit to Celsius")
 
-        print(f"Result: {result}\n")
+choice = int(input("Enter your choice: "))
+
+if choice == 1:
+    print(f"\nYou selected: Celsius to Fahrenheit")
+elif choice == 2:
+    print(f"\nYou selected: Fahrenheit to Celsius")
+else:
+    print("Invalid choice")
+    exit()
 
 
-if __name__ == "__main__":
-    startClient()
+
+# RPC call
+if choice == 1:
+    value = float(input("Enter the temperature value: "))
+    print(f"\nInput temperature: {value}")
+    result = proxy.c_to_f(value)
+    print(f"\nResult in Fahrenheit: {result:.2f}")
+else:
+    value = float(input("Enter the Fahrenheit value: "))
+    print(f"\nInput Fahrenheit: {value}")
+    result = proxy.f_to_c(value)
+    print(f"\nResult in Celsius: {result:.2f}")

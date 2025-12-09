@@ -1,32 +1,18 @@
 from xmlrpc.server import SimpleXMLRPCServer
 
-#Defining the simple functions that will be performed
-def add(a, b):
-    return a+b
+# Function to change celcius to farenheit
+def c_to_f(c):
+    return (c * 9/5) + 32
 
-def subtract(a,b):
-    return a-b
-    
-def multiply(a,b):
-    return a*b
-    
-def divide(a,b):
-    if b == 0:
-        return "Error: Division by zero."
-    return a/b
-    
+# Function to change farenheit to celcius
 
-def startServer():
-    server = SimpleXMLRPCServer(("127.0.0.1", 8000))
-    print("RPC server started on port 8000")
+def f_to_c(f):
+    return (f - 32) * 5/9
 
-    #Register the functions
-    server.register_function(add, "add")
-    server.register_function(subtract, "subtract")
-    server.register_function(multiply, "multiply")
-    server.register_function(divide, "divide")
+server = SimpleXMLRPCServer(("127.0.0.1", 6001))
+print("RPC Server running on 127.0.0.1:6001...")
 
-    server.serve_forever()
+server.register_function(c_to_f, "c_to_f")
+server.register_function(f_to_c, "f_to_c")
 
-if __name__ == "__main__":
-    startServer()
+server.serve_forever()
